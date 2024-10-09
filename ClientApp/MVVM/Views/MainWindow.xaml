@@ -1,0 +1,82 @@
+﻿<Window x:Class="ClientApp.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ClientApp"
+        xmlns:viewmodel="clr-namespace:ClientApp.MVVM.ViewModels"
+        Style="{StaticResource MaterialDesignWindow}"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+
+    <Window.DataContext>
+        <viewmodel:MainViewModel/>
+    </Window.DataContext>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="217"/>
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        
+       
+        <DockPanel Margin="5,0,5,0">
+            <StackPanel Orientation="Vertical" DockPanel.Dock="Top">
+                <TextBlock Text="Enter your username: " VerticalAlignment="Center" Margin="0,10,10,0"/>
+                <TextBox Height="25" Width="200" Margin="0,10,0,10" Text="{Binding Username, UpdateSourceTrigger=PropertyChanged}" BorderThickness="1" />
+                <TextBlock Text="Enter your password: " VerticalAlignment="Center" Margin="0,0,10,0"/>
+                <TextBox Height="25" Width="200" Margin="0,10,0,10" Text="{Binding Password, UpdateSourceTrigger=PropertyChanged}" BorderThickness="1" />
+            </StackPanel>
+            <!-- Login/Logout Buttons -->
+            <!-- Login/Logout Buttons -->
+            <StackPanel Orientation="Horizontal" DockPanel.Dock="Top">
+                <Button Name="btnLogin" Content="Login" Command="{Binding ConnectToServerCommand}" Width="105" Height="30" Margin="0,0,10,0"/>
+                <Button Name="btnLogout" Content="Logout" Command="{Binding LogoutCommand}" Width="100" Height="30" />
+            </StackPanel>
+            <Button Height="25" FontWeight="Bold" Margin="0,10,0,0" DockPanel.Dock="Top" Content="Join the Lobby" Command="{Binding ConnectToServerCommand}"/>
+            <!--  <Button Height="25" Margin="0,10,0,0" FontWeight="Bold" Background="Red" DockPanel.Dock="Top" Content="Leave the Lobby" Command="{Binding DisconnectCommand}"/> -->
+
+            <!-- Connection Status 
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" DockPanel.Dock="Top" Margin="0,10,0,0">
+                <TextBlock Text="Connection Status: " VerticalAlignment="Center" FontSize="14" />
+                <TextBlock Name="txtConnectionStatus" Text="Disconnected" VerticalAlignment="Center" FontSize="14" Foreground="Red"/>
+            </StackPanel>-->
+            <!-- IP Address and Port Input 
+            <StackPanel Orientation="Horizontal" DockPanel.Dock="Top">
+                <TextBlock Text="IP Address: " VerticalAlignment="Center" FontSize="14" Width="90"/>
+                <TextBox Name="txtIpAddress" Width="150" Height="25" />
+                <TextBlock Text="Port: " VerticalAlignment="Center" FontSize="14" Width="50" Margin="10,0,0,0"/>
+                <TextBox Name="txtPort" Width="100" Height="25"/>
+            </StackPanel>-->
+            
+            <!-- List user -->
+
+            <Border BorderThickness="2" Margin="10,10,10,10" BorderBrush="BlueViolet" CornerRadius="5" Padding="10" Height="154">
+
+                <StackPanel Height="306" >
+                    <TextBlock Text="List of players in the Lobby" FontWeight="Bold" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,0,0" Height="20" Width="155"/>
+                    <ListView Margin="10,10,10,10" ItemsSource="{Binding Users}" SelectedItem="{Binding SelectedUser}">
+                        <ListView.ItemTemplate>
+                            <DataTemplate >
+                                <TextBlock Text="{Binding Username}"/>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </StackPanel>
+            </Border>
+        </DockPanel>
+
+        <StackPanel Grid.Column="1">
+            <!--Message Display Area-->
+
+            <ListView Height="345" ItemsSource="{Binding Messages}"/>
+            <!--Message Input and Send Button-->
+
+            <StackPanel Orientation="Horizontal" Width="567">
+                <TextBox Height="55" Width="366" VerticalContentAlignment="Center" Text="{Binding Message}"/>
+                <Button Width="71" Content="Send" Command="{Binding SendMessageCommand, UpdateSourceTrigger=PropertyChanged}"></Button>
+                <!-- File Transfer Button -->
+                <Button Name="btnFileTransfer" Content="Select File" Width="106" Height="30" Margin="10,0,0,0"/>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</Window>
